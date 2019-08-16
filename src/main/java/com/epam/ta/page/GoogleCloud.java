@@ -20,7 +20,6 @@ public class GoogleCloud extends AbstractPage {
 
     private final String CLOUD_GOOGLE_URL = "https://cloud.google.com/";
     private final Logger logger = LogManager.getRootLogger();
-    private WebDriverWait wait;
 
     @FindBy(xpath = "//a[@data-label='Tab: Pricing']")
     private WebElement linkPricing;
@@ -46,7 +45,6 @@ public class GoogleCloud extends AbstractPage {
     @FindBy(xpath = "//md-select[@placeholder='Number of GPUs']")
     private WebElement numberOfGupsLocator;
 
-    //  @FindBy(xpath = "//md-option[@id='select_option_357' and @value='1']")
     @FindBy(xpath = "//md-option[@ng-disabled='item.value != 0 && item.value < listingCtrl.minGPU' and @value='1']")
     private WebElement numberOfGupsOneLocator;
 
@@ -95,13 +93,13 @@ public class GoogleCloud extends AbstractPage {
     @FindBy(xpath = "//md-select[@ng-model='listingCtrl.computeServer.location']")
     private WebElement locationClickLocator;
 
-    @FindBy(xpath = "//md-option[@id='select_option_181']")
+    @FindBy(xpath = "//md-option[@id='select_option_184']")
     private WebElement locationFrankfurtLocator;
 
     @FindBy(xpath = "//md-option[@id='select_option_177']")
     private WebElement locationOregonLocator;
 
-    @FindBy(xpath = "//md-select-value[@id='select_value_label_51']") //как тут
+    @FindBy(xpath = "//md-select-value[@id='select_value_label_51']")
     private WebElement commitedUsageClick;
 
     @FindBy(xpath = "//md-option[@id='select_option_82']")
@@ -122,24 +120,20 @@ public class GoogleCloud extends AbstractPage {
     @FindBy(xpath = "//button[@aria-label='Send Email']")
     private WebElement buttonSendEmail;
 
-    @FindBy(xpath = ".//span[text()='Google Cloud Platform Price Estimate']")
+    @FindBy(xpath = ".//span[@class='inc-mail-subject']")
     private WebElement openEmail;
 
     private final By scriptLocator = By.xpath("//iframe[@id='idIframe']");
     private final String frame = "idIframe";
 
-
     @FindBy(xpath = "//div//input[@class='mail-address-address']")
     private WebElement emailAddress;
 
-   // private final By emailAddress = By.xpath("//div//input[@class='mail-address-address']");
-
     @FindBy(xpath = "//button[@id='email_quote']")
-    private WebElement email;
+    private WebElement emailButton;
 
-    @FindBy(xpath = "//button[@ng-click='emailQuote.emailQuote(true); emailQuote.$mdDialog.hide()']")
+    @FindBy(xpath = "//button[@aria-label='Send Email']")
     private WebElement sendEmail;
-
 
     public GoogleCloud(WebDriver driver) {
         super(driver);
@@ -163,28 +157,23 @@ public class GoogleCloud extends AbstractPage {
 
         inputInstanses.sendKeys(calculator.getNumberOfInstances());
         mashineTypeLocator.click();
-//        instanceTypeN1Standart8Locator.click();
-        setMashineType(calculator.getInstanceType());
-        driver.manage().timeouts().implicitlyWait(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        setMachineType(calculator.getInstanceType());
+
+        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.visibilityOf(addGPUCheckbox));
         addGPUCheckbox.click();
         numberOfGupsLocator.click();
-        driver.manage().timeouts().implicitlyWait(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS);
         setNumberOfGups(calculator.getNumberOfGPUs());
-//        numberOfGupsOneLocator.click();
+        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.visibilityOf(typeOfGupsLocator));
         typeOfGupsLocator.click();
         setGPUType(calculator.getGpuType());
-//        gpuTypeLocator.click();
         localSSDLocator.click();
         setLocalSSD(calculator.getLocalSSD());
-//        localSSD375GbLocator.click();
-        driver.manage().timeouts().implicitlyWait(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.visibilityOf(locationClickLocator));
         locationClickLocator.click();
-        // locationFrankfurtLocator.click();
         setLocation(calculator.getRegion());
-        driver.manage().timeouts().implicitlyWait(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.visibilityOf(commitedUsageClick));
         commitedUsageClick.click();
         setCommitedUsage(calculator.getCommitmentUsage());
-        // commitedUsage1YearLocator.click();
         buttonAddToEstimate.click();
 
         return new GoogleCloud(driver);
@@ -202,8 +191,8 @@ public class GoogleCloud extends AbstractPage {
         }
     }
 
-    private void setMashineType(String mashineType) {
-        switch (mashineType) {
+    private void setMachineType(String machineType) {
+        switch (machineType) {
             case "Instance type: n1-standard-8":
                 instanceTypeN1Standart8Locator.click();
                 break;
@@ -218,7 +207,7 @@ public class GoogleCloud extends AbstractPage {
         }
     }
 
-    private void setNumberOfGups(String numberOfGups) {
+    private void setNumberOfGups(String  numberOfGups) {
         switch (numberOfGups) {
             case "1":
                 numberOfGupsOneLocator.click();
@@ -288,65 +277,13 @@ public class GoogleCloud extends AbstractPage {
         }
     }
 
-    public GoogleCloud sendPriceToEmail(TenMinuteMail tenMinuteMail) {
-
-        emailClick.click();
-        emailClick.sendKeys(tenMinuteMail.getEmailCopy());
-
-        buttonSendEmail.click();
-        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath(".//a[text()='Google Cloud Platform Price Estimate']")));
-        openEmail.click();
-
-        return new GoogleCloud(driver);
-    }
-
-    public GoogleCloud sendEmail() throws InterruptedException {
-
-//  driver.findElement(By.cssSelector("body")).sendKeys(Keys.CONTROL + "t");    открыть окно новое
-
-        String parentWindow = driver.getWindowHandle();
-        System.out.println("parent window "+ parentWindow);;
-        Set<String> windowHandles = driver.getWindowHandles();
-
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.open('https://10minutemail.com/10MinuteMail/index.html','_ ');");
-        driver.manage().timeouts().implicitlyWait(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS);
-        String childWindow = driver.getWindowHandle();
-        System.out.println("child window " + childWindow);
-        windowHandles.add(childWindow);
-
-//        WebElement emailValue = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS)
-//                .until(ExpectedConditions.presenceOfElementLocated(emailAddress));
-       // Thread.sleep(10000);
-        //wait.until(ExpectedConditions.visibilityOf(emailAddress));
-
-        String emailCopy= emailAddress.getAttribute("value");
-        driver.switchTo().window(parentWindow);
-
-        email.click();
-        email.sendKeys(emailCopy);
-
-        sendEmail.click();
-
-        driver.switchTo().window("https://10minutemail.com");
-
-        new WebDriverWait(driver, 400).until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath(".//a[text()='Google Cloud Platform Price Estimate']")));
-        openEmail.click();
-
-        return new GoogleCloud(driver);
-
-    }
-
-
     public Calculator readEstimate() {
 
         Calculator calculator = new Calculator();
 
         calculator.setVMClass(driver.findElement(By.xpath("//md-list-item[@class='md-1-line md-no-proxy ng-scope'][1]")).getText().trim());
         calculator.setInstanceType(driver.findElement(By.xpath("//md-list-item[@class='md-1-line md-no-proxy'][2]")).getText().trim());
-        calculator.setNumberOfInstances(driver.findElement(By.xpath("//md-list//..//span[@class='ng-binding ng-scope']")).getText().trim().replaceAll("\\D+", "")); //оставляет только цифры и обрезает
+        calculator.setNumberOfInstances(driver.findElement(By.xpath("//md-list//..//span[@class='ng-binding ng-scope']")).getText().trim().replaceAll("\\D+", ""));
         calculator.setNumberOfGPUs("1");
         calculator.setGpuType("NVIDIA Tesla V100");
         calculator.setLocalSSD(driver.findElement(By.xpath("//md-list-item[@class='md-1-line md-no-proxy ng-scope'][2]")).getText().trim());
@@ -354,7 +291,6 @@ public class GoogleCloud extends AbstractPage {
         calculator.setCommitmentUsage(driver.findElement(By.xpath("//md-list-item[@class='md-1-line md-no-proxy ng-scope'][3]")).getText().trim());
         calculator.setCost(driver.findElement(By.xpath("//md-list-item[@role='listitem']//div//b")).getText().trim());
 
-//        calculator.setEmail(driver.findElement(By.xpath("//*[@id='mobilepadding']/td/table/tbody/tr[1]/td[4]")).getAttribute("Total Estimated Monthly Cost"));
         return calculator;
     }
 

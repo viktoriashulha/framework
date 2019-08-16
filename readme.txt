@@ -1,0 +1,3 @@
+-Dbrowser=chrome -Dsurefire.suiteXmlFiles=src\main\resources\testng-smoke.xml -Denvironment=dev clean test
+
+для запуска

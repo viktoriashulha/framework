@@ -13,14 +13,17 @@ public class Calculator {
     private String numberOfGPUs;
     private String numberOfInstances;
 
-    public Calculator(String VMClass, String instanceType, String region, String localSSD, String commitmentUsage, String cost, String numberOfInstances) {
+    public Calculator(String VMClass, String instanceType, String region, String localSSD, String commitmentUsage, String cost, String gpuType, String numberOfInstances, String numberOfGPUs) {
         this.VMClass = VMClass;
         this.instanceType = instanceType;
         this.region = region;
         this.localSSD = localSSD;
         this.commitmentUsage = commitmentUsage;
         this.cost = cost;
+        this.gpuType = gpuType;
         this.numberOfInstances = numberOfInstances;
+        this.numberOfGPUs = numberOfGPUs;
+
     }
 
     @Override
@@ -37,21 +40,6 @@ public class Calculator {
                 Objects.equals(getGpuType(), that.getGpuType()) &&
                 Objects.equals(getNumberOfGPUs(), that.getNumberOfGPUs()) &&
                 Objects.equals(getNumberOfInstances(), that.getNumberOfInstances());
-    }
-
-    @Override
-    public String toString() {
-        return "Calculator{" +
-                "VMClass='" + VMClass + '\'' +
-                ", instanceType='" + instanceType + '\'' +
-                ", region='" + region + '\'' +
-                ", localSSD='" + localSSD + '\'' +
-                ", commitmentUsage='" + commitmentUsage + '\'' +
-                ", cost='" + cost + '\'' +
-                ", gpuType='" + gpuType + '\'' +
-                ", numberOfGPUs='" + numberOfGPUs + '\'' +
-                ", numberOfInstances='" + numberOfInstances + '\'' +
-                '}';
     }
 
     @Override
@@ -110,19 +98,19 @@ public class Calculator {
         this.cost = cost;
     }
 
-    public String getNumberOfInstances() {
+    public String  getNumberOfInstances() {
         return numberOfInstances;
     }
 
-    public void setNumberOfInstances(String numberOfInstances) {
+    public void setNumberOfInstances(String  numberOfInstances) {
         this.numberOfInstances = numberOfInstances;
     }
 
-    public String getNumberOfGPUs() {
+    public String  getNumberOfGPUs() {
         return numberOfGPUs;
     }
 
-    public void setNumberOfGPUs(String numberOfGPUs) {
+    public void setNumberOfGPUs(String  numberOfGPUs) {
         this.numberOfGPUs = numberOfGPUs;
     }
 
