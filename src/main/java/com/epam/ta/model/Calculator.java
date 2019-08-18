@@ -98,19 +98,19 @@ public class Calculator {
         this.cost = cost;
     }
 
-    public String  getNumberOfInstances() {
+    public String getNumberOfInstances() {
         return numberOfInstances;
     }
 
-    public void setNumberOfInstances(String  numberOfInstances) {
+    public void setNumberOfInstances(String numberOfInstances) {
         this.numberOfInstances = numberOfInstances;
     }
 
-    public String  getNumberOfGPUs() {
+    public String getNumberOfGPUs() {
         return numberOfGPUs;
     }
 
-    public void setNumberOfGPUs(String  numberOfGPUs) {
+    public void setNumberOfGPUs(String numberOfGPUs) {
         this.numberOfGPUs = numberOfGPUs;
     }
 

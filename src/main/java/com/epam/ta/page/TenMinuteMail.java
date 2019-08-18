@@ -18,8 +18,12 @@ import java.util.concurrent.TimeUnit;
 public class TenMinuteMail extends AbstractPage {
 
     private String email;
+
     private final String MAIL_URL = "https://10minutemail.com/";
-    private final String frame = "idIframe";
+    private static final String FRAME = "idIframe";
+    private static final String XPATH_PRICE_ESTIMATE = ".//a[text()='Google Cloud Platform Price Estimate']";
+    private static final String XPATH_MAIL = "//*[@id='mobilepadding']/td/table/tbody/tr[1]/td[4]";
+
     private final Logger logger = LogManager.getRootLogger();
 
     @FindBy(xpath = "//button[@id='email_quote']")
@@ -51,32 +55,29 @@ public class TenMinuteMail extends AbstractPage {
         Set<String> windowHandles = driver.getWindowHandles();
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("window.open('https://10minutemail.com/10MinuteMail/index.html','_ ');");
-        driver.manage().timeouts().implicitlyWait(WAIT_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+
         String childWindow = driver.getWindowHandle();
         windowHandles.add(childWindow);
-
+//        Mail expectedMail = new Mail();
+//        switchTabs();
         String emailCopy = emailAddress.getAttribute("value");
         mail.setEmail(emailCopy);
         driver.switchTo().window(parentWindow);
-        driver.switchTo().frame(frame);
+        driver.switchTo().frame(FRAME);
         emailButton.click();
         emailButton.sendKeys(emailCopy);
-
         sendEmail.click();
-
         driver.switchTo().window(MAIL_URL);
-
-        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath(".//a[text()='Google Cloud Platform Price Estimate']")));
+        waitVisibilityOfElementLocated(By.xpath(XPATH_PRICE_ESTIMATE));
         openEmail.click();
 
         return new TenMinuteMail(driver);
 
     }
 
-    public TenMinuteMail readEmail(){
+    public TenMinuteMail readEmail() {
         TenMinuteMail tenMinuteMail = new TenMinuteMail(driver);
-        tenMinuteMail.setEmail(driver.findElement(By.xpath("//*[@id='mobilepadding']/td/table/tbody/tr[1]/td[4]")).getText().trim());
+        tenMinuteMail.setEmail(driver.findElement(By.xpath(XPATH_MAIL)).getText().trim());
         return tenMinuteMail;
     }
 

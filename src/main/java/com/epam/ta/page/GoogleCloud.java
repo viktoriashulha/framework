@@ -18,7 +18,19 @@ import java.util.concurrent.TimeUnit;
 
 public class GoogleCloud extends AbstractPage {
 
-    private final String CLOUD_GOOGLE_URL = "https://cloud.google.com/";
+    private static final String CLOUD_GOOGLE_URL = "https://cloud.google.com/";
+    private static final String FRAME = "idIframe";
+
+    private static final String XPATH_VMCLASS = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][1]";
+    private static final String XPATH_INSTANCE_TYPE = "//md-list-item[@class='md-1-line md-no-proxy'][2]";
+    private static final String XPATH_NUMBER_OF_INSTANCES = "//md-list//..//span[@class='ng-binding ng-scope']";
+    private static final String XPATH_NUMBER_OF_GPUS = "1";
+    private static final String XPATH_GPU_TYPE = "NVIDIA Tesla V100";
+    private static final String XPATH_LOCAL_SSD = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][2]";
+    private static final String XPATH_REGION = "//md-list-item[@class='md-1-line md-no-proxy'][3]";
+    private static final String XPATH_COMMITMENT_USAGE = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][3]";
+    private static final String XPATH_COST = "//md-list-item[@role='listitem']//div//b";
+
     private final Logger logger = LogManager.getRootLogger();
 
     @FindBy(xpath = "//a[@data-label='Tab: Pricing']")
@@ -120,21 +132,6 @@ public class GoogleCloud extends AbstractPage {
     @FindBy(xpath = "//button[@aria-label='Send Email']")
     private WebElement buttonSendEmail;
 
-    @FindBy(xpath = ".//span[@class='inc-mail-subject']")
-    private WebElement openEmail;
-
-    private final By scriptLocator = By.xpath("//iframe[@id='idIframe']");
-    private final String frame = "idIframe";
-
-    @FindBy(xpath = "//div//input[@class='mail-address-address']")
-    private WebElement emailAddress;
-
-    @FindBy(xpath = "//button[@id='email_quote']")
-    private WebElement emailButton;
-
-    @FindBy(xpath = "//button[@aria-label='Send Email']")
-    private WebElement sendEmail;
-
     public GoogleCloud(WebDriver driver) {
         super(driver);
         PageFactory.initElements(this.driver, this);
@@ -149,7 +146,7 @@ public class GoogleCloud extends AbstractPage {
     public GoogleCloud goToCalculator() {
         linkPricing.click();
         linkPriceCalculator.click();
-        driver.switchTo().frame(frame);
+        driver.switchTo().frame(FRAME);
         return new GoogleCloud(driver);
     }
 
@@ -159,19 +156,19 @@ public class GoogleCloud extends AbstractPage {
         mashineTypeLocator.click();
         setMachineType(calculator.getInstanceType());
 
-        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.visibilityOf(addGPUCheckbox));
+        waitElementToBeVisible(addGPUCheckbox);
         addGPUCheckbox.click();
         numberOfGupsLocator.click();
         setNumberOfGups(calculator.getNumberOfGPUs());
-        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.visibilityOf(typeOfGupsLocator));
+        waitElementToBeVisible(typeOfGupsLocator);
         typeOfGupsLocator.click();
         setGPUType(calculator.getGpuType());
         localSSDLocator.click();
         setLocalSSD(calculator.getLocalSSD());
-        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.visibilityOf(locationClickLocator));
+        waitElementToBeVisible(locationClickLocator);
         locationClickLocator.click();
         setLocation(calculator.getRegion());
-        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.visibilityOf(commitedUsageClick));
+        waitElementToBeVisible(commitedUsageClick);
         commitedUsageClick.click();
         setCommitedUsage(calculator.getCommitmentUsage());
         buttonAddToEstimate.click();
@@ -207,7 +204,7 @@ public class GoogleCloud extends AbstractPage {
         }
     }
 
-    private void setNumberOfGups(String  numberOfGups) {
+    private void setNumberOfGups(String numberOfGups) {
         switch (numberOfGups) {
             case "1":
                 numberOfGupsOneLocator.click();
@@ -281,15 +278,15 @@ public class GoogleCloud extends AbstractPage {
 
         Calculator calculator = new Calculator();
 
-        calculator.setVMClass(driver.findElement(By.xpath("//md-list-item[@class='md-1-line md-no-proxy ng-scope'][1]")).getText().trim());
-        calculator.setInstanceType(driver.findElement(By.xpath("//md-list-item[@class='md-1-line md-no-proxy'][2]")).getText().trim());
-        calculator.setNumberOfInstances(driver.findElement(By.xpath("//md-list//..//span[@class='ng-binding ng-scope']")).getText().trim().replaceAll("\\D+", ""));
-        calculator.setNumberOfGPUs("1");
-        calculator.setGpuType("NVIDIA Tesla V100");
-        calculator.setLocalSSD(driver.findElement(By.xpath("//md-list-item[@class='md-1-line md-no-proxy ng-scope'][2]")).getText().trim());
-        calculator.setRegion(driver.findElement(By.xpath("//md-list-item[@class='md-1-line md-no-proxy'][3]")).getText().trim());
-        calculator.setCommitmentUsage(driver.findElement(By.xpath("//md-list-item[@class='md-1-line md-no-proxy ng-scope'][3]")).getText().trim());
-        calculator.setCost(driver.findElement(By.xpath("//md-list-item[@role='listitem']//div//b")).getText().trim());
+        calculator.setVMClass(driver.findElement(By.xpath(XPATH_VMCLASS)).getText().trim());
+        calculator.setInstanceType(driver.findElement(By.xpath(XPATH_INSTANCE_TYPE)).getText().trim());
+        calculator.setNumberOfInstances(driver.findElement(By.xpath(XPATH_NUMBER_OF_INSTANCES)).getText().trim().replaceAll("\\D+", ""));
+        calculator.setNumberOfGPUs(XPATH_NUMBER_OF_GPUS);
+        calculator.setGpuType(XPATH_GPU_TYPE);
+        calculator.setLocalSSD(driver.findElement(By.xpath(XPATH_LOCAL_SSD)).getText().trim());
+        calculator.setRegion(driver.findElement(By.xpath(XPATH_REGION)).getText().trim());
+        calculator.setCommitmentUsage(driver.findElement(By.xpath(XPATH_COMMITMENT_USAGE)).getText().trim());
+        calculator.setCost(driver.findElement(By.xpath(XPATH_COST)).getText().trim());
 
         return calculator;
     }

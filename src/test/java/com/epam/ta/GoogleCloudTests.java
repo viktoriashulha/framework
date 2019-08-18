@@ -12,9 +12,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 
-public class GoogleCloudTests {
-
-    protected WebDriver driver;
+public class GoogleCloudTests extends CommonConditions {
 
     @Test
     public void oneCanCreateEstimate() {
@@ -40,7 +38,7 @@ public class GoogleCloudTests {
     }
 
     @Test
-    public void oneCanSendEmail(){
+    public void oneCanSendEmail() {
         Mail expectedMail = new Mail();
 
         TenMinuteMail tenMinuteMail = new TenMinuteMail(driver)
