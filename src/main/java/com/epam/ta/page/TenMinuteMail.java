@@ -1,6 +1,6 @@
 package com.epam.ta.page;
 
-import com.epam.ta.model.Mail;
+import com.epam.ta.model.Calculator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -9,15 +9,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 public class TenMinuteMail extends AbstractPage {
-
-    private String email;
 
     private final String MAIL_URL = "https://10minutemail.com/";
     private static final String FRAME = "idIframe";
@@ -49,7 +44,20 @@ public class TenMinuteMail extends AbstractPage {
         return this;
     }
 
-    public TenMinuteMail sendEmail(Mail mail) {
+//    public void switchToMailWindow(){
+//        String parentWindow = driver.getWindowHandle();
+//        Set<String> windowHandles = driver.getWindowHandles();
+//        JavascriptExecutor jse = (JavascriptExecutor) driver;
+//        jse.executeScript("window.open('https://10minutemail.com/10MinuteMail/index.html','_ ');");
+//
+//        String childWindow = driver.getWindowHandle();
+//        windowHandles.add(childWindow);
+//        String emailCopy = emailAddress.getAttribute("value");
+//        driver.switchTo().window(parentWindow);
+//
+//    }
+
+    public GoogleCloud sendEmail(Calculator calculator) {
 
         String parentWindow = driver.getWindowHandle();
         Set<String> windowHandles = driver.getWindowHandles();
@@ -58,10 +66,9 @@ public class TenMinuteMail extends AbstractPage {
 
         String childWindow = driver.getWindowHandle();
         windowHandles.add(childWindow);
-//        Mail expectedMail = new Mail();
-//        switchTabs();
+
         String emailCopy = emailAddress.getAttribute("value");
-        mail.setEmail(emailCopy);
+        calculator.setEmail(emailCopy);
         driver.switchTo().window(parentWindow);
         driver.switchTo().frame(FRAME);
         emailButton.click();
@@ -71,21 +78,13 @@ public class TenMinuteMail extends AbstractPage {
         waitVisibilityOfElementLocated(By.xpath(XPATH_PRICE_ESTIMATE));
         openEmail.click();
 
-        return new TenMinuteMail(driver);
+        return new GoogleCloud(driver);
 
     }
 
-    public TenMinuteMail readEmail() {
-        TenMinuteMail tenMinuteMail = new TenMinuteMail(driver);
-        tenMinuteMail.setEmail(driver.findElement(By.xpath(XPATH_MAIL)).getText().trim());
-        return tenMinuteMail;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public Calculator readEmail() {
+        Calculator calculator = new Calculator();
+        calculator.setEmail(driver.findElement(By.xpath(XPATH_MAIL)).getText().trim());
+        return calculator;
     }
 }

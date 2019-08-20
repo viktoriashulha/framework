@@ -20,6 +20,8 @@ public class GoogleCloud extends AbstractPage {
 
     private static final String CLOUD_GOOGLE_URL = "https://cloud.google.com/";
     private static final String FRAME = "idIframe";
+    private final String MAIL_URL = "https://10minutemail.com/";
+    private static final String XPATH_PRICE_ESTIMATE = ".//a[text()='Google Cloud Platform Price Estimate']";
 
     private static final String XPATH_VMCLASS = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][1]";
     private static final String XPATH_INSTANCE_TYPE = "//md-list-item[@class='md-1-line md-no-proxy'][2]";
@@ -30,6 +32,7 @@ public class GoogleCloud extends AbstractPage {
     private static final String XPATH_REGION = "//md-list-item[@class='md-1-line md-no-proxy'][3]";
     private static final String XPATH_COMMITMENT_USAGE = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][3]";
     private static final String XPATH_COST = "//md-list-item[@role='listitem']//div//b";
+    private static final String XPATH_MAIL = "//*[@id='mobilepadding']/td/table/tbody/tr[1]/td[4]";
 
     private final Logger logger = LogManager.getRootLogger();
 
@@ -131,6 +134,18 @@ public class GoogleCloud extends AbstractPage {
 
     @FindBy(xpath = "//button[@aria-label='Send Email']")
     private WebElement buttonSendEmail;
+
+    @FindBy(xpath = "//button[@id='email_quote']")
+    private WebElement emailButton;
+
+    @FindBy(xpath = "//button[@aria-label='Send Email']")
+    private WebElement sendEmail;
+
+    @FindBy(xpath = ".//span[@class='inc-mail-subject']")
+    private WebElement openEmail;
+
+    @FindBy(id = "mailAddress")
+    private WebElement emailAddress;
 
     public GoogleCloud(WebDriver driver) {
         super(driver);
@@ -274,6 +289,29 @@ public class GoogleCloud extends AbstractPage {
         }
     }
 
+    public GoogleCloud sendEmail() {
+
+        String parentWindow = driver.getWindowHandle();
+        Set<String> windowHandles = driver.getWindowHandles();
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("window.open('https://10minutemail.com/10MinuteMail/index.html','_ ');");
+
+        String childWindow = driver.getWindowHandle();
+        windowHandles.add(childWindow);
+
+        String emailCopy = emailAddress.getAttribute("value");
+        driver.switchTo().window(parentWindow);
+        driver.switchTo().frame(FRAME);
+        emailButton.click();
+        emailButton.sendKeys(emailCopy);
+        sendEmail.click();
+        driver.switchTo().window(MAIL_URL);
+        waitVisibilityOfElementLocated(By.xpath(XPATH_PRICE_ESTIMATE));
+        openEmail.click();
+
+        return new GoogleCloud(driver);
+    }
+
     public Calculator readEstimate() {
 
         Calculator calculator = new Calculator();
@@ -287,6 +325,7 @@ public class GoogleCloud extends AbstractPage {
         calculator.setRegion(driver.findElement(By.xpath(XPATH_REGION)).getText().trim());
         calculator.setCommitmentUsage(driver.findElement(By.xpath(XPATH_COMMITMENT_USAGE)).getText().trim());
         calculator.setCost(driver.findElement(By.xpath(XPATH_COST)).getText().trim());
+        calculator.setEmail(driver.findElement(By.xpath(XPATH_MAIL)).getText().trim());
 
         return calculator;
     }

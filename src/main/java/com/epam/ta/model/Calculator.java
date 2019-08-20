@@ -12,6 +12,7 @@ public class Calculator {
     private String gpuType;
     private String numberOfGPUs;
     private String numberOfInstances;
+    private String email;
 
     public Calculator(String VMClass, String instanceType, String region, String localSSD, String commitmentUsage, String cost, String gpuType, String numberOfInstances, String numberOfGPUs) {
         this.VMClass = VMClass;
@@ -39,12 +40,13 @@ public class Calculator {
                 Objects.equals(getCost(), that.getCost()) &&
                 Objects.equals(getGpuType(), that.getGpuType()) &&
                 Objects.equals(getNumberOfGPUs(), that.getNumberOfGPUs()) &&
-                Objects.equals(getNumberOfInstances(), that.getNumberOfInstances());
+                Objects.equals(getNumberOfInstances(), that.getNumberOfInstances()) &&
+                Objects.equals(getEmail(), that.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getVMClass(), getInstanceType(), getRegion(), getLocalSSD(), getCommitmentUsage(), getCost(), getGpuType(), getNumberOfGPUs(), getNumberOfInstances());
+        return Objects.hash(getVMClass(), getInstanceType(), getRegion(), getLocalSSD(), getCommitmentUsage(), getCost(), getGpuType(), getNumberOfGPUs(), getNumberOfInstances(), getEmail());
     }
 
     public Calculator() {
@@ -120,5 +122,13 @@ public class Calculator {
 
     public void setGpuType(String gpuType) {
         this.gpuType = gpuType;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
