@@ -1,5 +1,6 @@
 package com.epam.ta.page;
 
+import com.epam.ta.exceptions.IncorrectTestDataException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -7,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 public abstract class AbstractPage {
@@ -25,17 +27,7 @@ public abstract class AbstractPage {
         new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.visibilityOf(element));
     }
 
-    protected void waitVisibilityOfElementLocated(By element) {
-        new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.visibilityOfElementLocated(element));
-    }
-
-    protected void switchTabs(){
-        String parentWindow = driver.getWindowHandle();
-        Set<String> windowHandles = driver.getWindowHandles();
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.open('https://10minutemail.com/10MinuteMail/index.html','_ ');");
-
-        String childWindow = driver.getWindowHandle();
-        windowHandles.add(childWindow);
+    protected void waitElementToBeVisibleWithTimeout(WebElement element, int timeoutSeconds) {
+        new WebDriverWait(driver, timeoutSeconds).until(ExpectedConditions.visibilityOf(element));
     }
 }

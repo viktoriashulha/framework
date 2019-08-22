@@ -10,14 +10,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class TenMinuteMail extends AbstractPage {
 
-    private final String MAIL_URL = "https://10minutemail.com/";
-    private static final String FRAME = "idIframe";
     private static final String XPATH_PRICE_ESTIMATE = ".//a[text()='Google Cloud Platform Price Estimate']";
     private static final String XPATH_MAIL = "//*[@id='mobilepadding']/td/table/tbody/tr[1]/td[4]";
+    private static final String XPATH_COST = "//md-list-item[@role='listitem']//div//b";
 
     private final Logger logger = LogManager.getRootLogger();
 
@@ -30,8 +31,11 @@ public class TenMinuteMail extends AbstractPage {
     @FindBy(xpath = ".//span[@class='inc-mail-subject']")
     private WebElement openEmail;
 
-    @FindBy(id = "mailAddress")
+    @FindBy(xpath = "//span[@id='email_ch_text']")
     private WebElement emailAddress;
+
+    @FindBy(xpath = "//div[@class='e7m mess_bodiyy']//h2")
+    private WebElement priceEstimate;
 
     public TenMinuteMail(WebDriver driver) {
         super(driver);
@@ -39,52 +43,29 @@ public class TenMinuteMail extends AbstractPage {
     }
 
     public TenMinuteMail openPage() {
-        driver.navigate().to(MAIL_URL);
-        logger.info("TenMinuteMail page opened");
-        return this;
-    }
-
-//    public void switchToMailWindow(){
-//        String parentWindow = driver.getWindowHandle();
-//        Set<String> windowHandles = driver.getWindowHandles();
-//        JavascriptExecutor jse = (JavascriptExecutor) driver;
-//        jse.executeScript("window.open('https://10minutemail.com/10MinuteMail/index.html','_ ');");
-//
-//        String childWindow = driver.getWindowHandle();
-//        windowHandles.add(childWindow);
-//        String emailCopy = emailAddress.getAttribute("value");
-//        driver.switchTo().window(parentWindow);
-//
-//    }
-
-    public GoogleCloud sendEmail(Calculator calculator) {
-
-        String parentWindow = driver.getWindowHandle();
-        Set<String> windowHandles = driver.getWindowHandles();
         JavascriptExecutor jse = (JavascriptExecutor) driver;
-        jse.executeScript("window.open('https://10minutemail.com/10MinuteMail/index.html','_ ');");
-
-        String childWindow = driver.getWindowHandle();
-        windowHandles.add(childWindow);
-
-        String emailCopy = emailAddress.getAttribute("value");
-        calculator.setEmail(emailCopy);
-        driver.switchTo().window(parentWindow);
-        driver.switchTo().frame(FRAME);
-        emailButton.click();
-        emailButton.sendKeys(emailCopy);
-        sendEmail.click();
-        driver.switchTo().window(MAIL_URL);
-        waitVisibilityOfElementLocated(By.xpath(XPATH_PRICE_ESTIMATE));
-        openEmail.click();
-
-        return new GoogleCloud(driver);
-
+        jse.executeScript("window.open('https://emailfake.com','_ ');");
+        logger.info("TenMinuteMail page was opened");
+        return this;
     }
 
     public Calculator readEmail() {
         Calculator calculator = new Calculator();
-        calculator.setEmail(driver.findElement(By.xpath(XPATH_MAIL)).getText().trim());
+        calculator.setCost(driver.findElement(By.xpath(XPATH_COST)).getText().trim());
+
         return calculator;
+    }
+
+    public String getEmailAddress() {
+        waitElementToBeVisibleWithTimeout(emailAddress, 10);
+        return emailAddress.getText();
+    }
+
+    public String readPriceFromEmail() {
+
+        waitElementToBeVisibleWithTimeout(priceEstimate, 10);
+        return priceEstimate.getText();
+
+
     }
 }
