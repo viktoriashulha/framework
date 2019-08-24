@@ -51,7 +51,7 @@ public class TenMinuteMail extends AbstractPage {
 
     public Calculator readEmail() {
         Calculator calculator = new Calculator();
-        calculator.setCost(driver.findElement(By.xpath(XPATH_COST)).getText().trim());
+//        calculator.setCost(driver.findElement(By.xpath(XPATH_COST)).getText().trim());
 
         return calculator;
     }
@@ -64,7 +64,7 @@ public class TenMinuteMail extends AbstractPage {
     public String readPriceFromEmail() {
 
         waitElementToBeVisibleWithTimeout(priceEstimate, 10);
-        return priceEstimate.getText();
+        return "" + priceEstimate.getText();
 
 
     }

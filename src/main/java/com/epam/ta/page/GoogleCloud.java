@@ -35,9 +35,6 @@ public class GoogleCloud extends AbstractPage {
 
     private final Logger logger = LogManager.getRootLogger();
 
-    @FindBy(xpath = "//iframe[@id='idIframe']")
-    private WebElement frame;
-
     @FindBy(xpath = "//a[@data-label='Tab: Pricing']")
     private WebElement linkPricing;
 
@@ -136,6 +133,9 @@ public class GoogleCloud extends AbstractPage {
 
     @FindBy(xpath = "//button[@aria-label='Send Email']")
     private WebElement buttonSendEmail;
+
+    @FindBy(xpath = "//h2[@class='md-title']//b")
+    private WebElement estimatedPrice;
 
 
     public GoogleCloud(WebDriver driver) {
@@ -280,23 +280,22 @@ public class GoogleCloud extends AbstractPage {
         }
     }
 
-    public Calculator readEstimate() {
-
-        Calculator calculator = new Calculator();
-
-        calculator.setVMClass(driver.findElement(By.xpath(XPATH_VMCLASS)).getText().trim());
-        calculator.setInstanceType(driver.findElement(By.xpath(XPATH_INSTANCE_TYPE)).getText().trim());
-        calculator.setNumberOfInstances(driver.findElement(By.xpath(XPATH_NUMBER_OF_INSTANCES)).getText().trim().replaceAll("\\D+", ""));
-        calculator.setNumberOfGPUs(XPATH_NUMBER_OF_GPUS);
-        calculator.setGpuType(XPATH_GPU_TYPE);
-        calculator.setLocalSSD(driver.findElement(By.xpath(XPATH_LOCAL_SSD)).getText().trim());
-        calculator.setRegion(driver.findElement(By.xpath(XPATH_REGION)).getText().trim());
-        calculator.setCommitmentUsage(driver.findElement(By.xpath(XPATH_COMMITMENT_USAGE)).getText().trim());
-        calculator.setCost(driver.findElement(By.xpath(XPATH_COST)).getText().trim());
-        calculator.setEmail(driver.findElement(By.xpath(XPATH_MAIL)).getText().trim());
-
-        return calculator;
-    }
+//    public Calculator readEstimate() {
+//
+//        Calculator calculator = new Calculator();
+//
+//        calculator.setVMClass(driver.findElement(By.xpath(XPATH_VMCLASS)).getText().trim());
+//        calculator.setInstanceType(driver.findElement(By.xpath(XPATH_INSTANCE_TYPE)).getText().trim());
+//        calculator.setNumberOfInstances(driver.findElement(By.xpath(XPATH_NUMBER_OF_INSTANCES)).getText().trim().replaceAll("\\D+", ""));
+//        calculator.setNumberOfGPUs(XPATH_NUMBER_OF_GPUS);
+//        calculator.setGpuType(XPATH_GPU_TYPE);
+//        calculator.setLocalSSD(driver.findElement(By.xpath(XPATH_LOCAL_SSD)).getText().trim());
+//        calculator.setRegion(driver.findElement(By.xpath(XPATH_REGION)).getText().trim());
+//        calculator.setCommitmentUsage(driver.findElement(By.xpath(XPATH_COMMITMENT_USAGE)).getText().trim());
+//        //calculator.setCost(driver.findElement(By.xpath(XPATH_COST)).getText().trim());
+//
+//        return calculator;
+//    }
 
     public void sendEstimate(String emailAddress) {
 
@@ -306,5 +305,10 @@ public class GoogleCloud extends AbstractPage {
         emailClick.click();
         emailClick.sendKeys(emailAddress);
         buttonSendEmail.click();
+    }
+
+    public String  readEstimatedPrice() {
+        estimatedPrice.getText().trim();
+        return null;
     }
 }

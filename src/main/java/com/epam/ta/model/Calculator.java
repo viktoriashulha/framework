@@ -3,27 +3,27 @@ package com.epam.ta.model;
 import java.util.Objects;
 
 public class Calculator {
+
+    private String numberOfInstances;
     private String VMClass;
     private String instanceType;
-    private String region;
-    private String localSSD;
-    private String commitmentUsage;
-    private String cost;
-    private String gpuType;
     private String numberOfGPUs;
-    private String numberOfInstances;
-    private String email;
+    private String gpuType;
+    private String localSSD;
+    private String region;
+    private String commitmentUsage;
 
-    public Calculator(String VMClass, String instanceType, String region, String localSSD, String commitmentUsage, String cost, String gpuType, String numberOfInstances, String numberOfGPUs) {
-        this.VMClass = VMClass;
-        this.instanceType = instanceType;
-        this.region = region;
-        this.localSSD = localSSD;
-        this.commitmentUsage = commitmentUsage;
-        this.cost = cost;
-        this.gpuType = gpuType;
+    public Calculator(String numberOfInstances, String instanceType, String numberOfGPUs, String gpuType, String localSSD, String region, String commitmentUsage) {
         this.numberOfInstances = numberOfInstances;
+        this.instanceType = instanceType;
         this.numberOfGPUs = numberOfGPUs;
+        this.gpuType = gpuType;
+        this.localSSD = localSSD;
+        this.region = region;
+        this.commitmentUsage = commitmentUsage;
+    }
+
+    public Calculator(){
 
     }
 
@@ -32,24 +32,18 @@ public class Calculator {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Calculator that = (Calculator) o;
-        return Objects.equals(getVMClass(), that.getVMClass()) &&
+        return Objects.equals(getNumberOfInstances(), that.getNumberOfInstances()) &&
                 Objects.equals(getInstanceType(), that.getInstanceType()) &&
-                Objects.equals(getRegion(), that.getRegion()) &&
-                Objects.equals(getLocalSSD(), that.getLocalSSD()) &&
-                Objects.equals(getCommitmentUsage(), that.getCommitmentUsage()) &&
-                Objects.equals(getCost(), that.getCost()) &&
-                Objects.equals(getGpuType(), that.getGpuType()) &&
                 Objects.equals(getNumberOfGPUs(), that.getNumberOfGPUs()) &&
-                Objects.equals(getNumberOfInstances(), that.getNumberOfInstances()) &&
-                Objects.equals(getEmail(), that.getEmail());
+                Objects.equals(getGpuType(), that.getGpuType()) &&
+                Objects.equals(getLocalSSD(), that.getLocalSSD()) &&
+                Objects.equals(getRegion(), that.getRegion()) &&
+                Objects.equals(getCommitmentUsage(), that.getCommitmentUsage());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getVMClass(), getInstanceType(), getRegion(), getLocalSSD(), getCommitmentUsage(), getCost(), getGpuType(), getNumberOfGPUs(), getNumberOfInstances(), getEmail());
-    }
-
-    public Calculator() {
+        return Objects.hash(getNumberOfInstances(), getInstanceType(), getNumberOfGPUs(), getGpuType(), getLocalSSD(), getRegion(), getCommitmentUsage());
     }
 
     public String getVMClass() {
@@ -92,14 +86,6 @@ public class Calculator {
         this.commitmentUsage = commitmentUsage;
     }
 
-    public String getCost() {
-        return cost;
-    }
-
-    public void setCost(String cost) {
-        this.cost = cost;
-    }
-
     public String getNumberOfInstances() {
         return numberOfInstances;
     }
@@ -124,11 +110,4 @@ public class Calculator {
         this.gpuType = gpuType;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
