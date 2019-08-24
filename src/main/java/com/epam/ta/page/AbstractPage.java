@@ -22,7 +22,7 @@ public abstract class AbstractPage {
     }
 
     protected void waitFrameAndSwitchToIt (String frame){
-        new WebDriverWait(driver, 20).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
+        new WebDriverWait(driver, 40).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
     }
 
 }

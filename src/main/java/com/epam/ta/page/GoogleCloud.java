@@ -12,6 +12,8 @@ public class GoogleCloud extends AbstractPage {
 
     private static final String CLOUD_GOOGLE_URL = "https://cloud.google.com/";
     private static final String FRAME = "idIframe";
+    @FindBy(xpath = "//md-content[@ng-class='{demo: !listingCtrl.CartData.IS_IFRAME}']")
+    private WebElement secondFrame;
 //    private static final String XPATH_PRICE_ESTIMATE = ".//a[text()='Google Cloud Platform Price Estimate']";
 //
 //    private static final String XPATH_VMCLASS = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][1]";
@@ -274,6 +276,8 @@ public class GoogleCloud extends AbstractPage {
     public void sendEstimate(String emailAddress) {
 
         waitFrameAndSwitchToIt(FRAME);
+//        waitElementToBeVisible(secondFrame);
+//        secondFrame.click();
         waitElementToBeVisible(buttonEmailEstimate);
         buttonEmailEstimate.click();
         emailClick.click();
