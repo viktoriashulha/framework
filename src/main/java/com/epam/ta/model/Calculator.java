@@ -23,7 +23,7 @@ public class Calculator {
         this.commitmentUsage = commitmentUsage;
     }
 
-    public Calculator(){
+    public Calculator() {
 
     }
 

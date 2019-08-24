@@ -6,32 +6,24 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import com.epam.ta.model.Calculator;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 public class GoogleCloud extends AbstractPage {
 
     private static final String CLOUD_GOOGLE_URL = "https://cloud.google.com/";
     private static final String FRAME = "idIframe";
-    private static final String XPATH_PRICE_ESTIMATE = ".//a[text()='Google Cloud Platform Price Estimate']";
-
-    private static final String XPATH_VMCLASS = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][1]";
-    private static final String XPATH_INSTANCE_TYPE = "//md-list-item[@class='md-1-line md-no-proxy'][2]";
-    private static final String XPATH_NUMBER_OF_INSTANCES = "//md-list//..//span[@class='ng-binding ng-scope']";
-    private static final String XPATH_NUMBER_OF_GPUS = "1";
-    private static final String XPATH_GPU_TYPE = "NVIDIA Tesla V100";
-    private static final String XPATH_LOCAL_SSD = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][2]";
-    private static final String XPATH_REGION = "//md-list-item[@class='md-1-line md-no-proxy'][3]";
-    private static final String XPATH_COMMITMENT_USAGE = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][3]";
-    private static final String XPATH_COST = "//md-list-item[@role='listitem']//div//b";
-    private static final String XPATH_MAIL = "//*[@id='mobilepadding']/td/table/tbody/tr[1]/td[4]";
+//    private static final String XPATH_PRICE_ESTIMATE = ".//a[text()='Google Cloud Platform Price Estimate']";
+//
+//    private static final String XPATH_VMCLASS = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][1]";
+//    private static final String XPATH_INSTANCE_TYPE = "//md-list-item[@class='md-1-line md-no-proxy'][2]";
+//    private static final String XPATH_NUMBER_OF_INSTANCES = "//md-list//..//span[@class='ng-binding ng-scope']";
+//    private static final String XPATH_NUMBER_OF_GPUS = "1";
+//    private static final String XPATH_GPU_TYPE = "NVIDIA Tesla V100";
+//    private static final String XPATH_LOCAL_SSD = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][2]";
+//    private static final String XPATH_REGION = "//md-list-item[@class='md-1-line md-no-proxy'][3]";
+//    private static final String XPATH_COMMITMENT_USAGE = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][3]";
+//    private static final String XPATH_COST = "//md-list-item[@role='listitem']//div//b";
+//    private static final String XPATH_MAIL = "//*[@id='mobilepadding']/td/table/tbody/tr[1]/td[4]";
 
     private final Logger logger = LogManager.getRootLogger();
 
@@ -136,7 +128,6 @@ public class GoogleCloud extends AbstractPage {
 
     @FindBy(xpath = "//h2[@class='md-title']//b")
     private WebElement estimatedPrice;
-
 
     public GoogleCloud(WebDriver driver) {
         super(driver);
@@ -280,27 +271,10 @@ public class GoogleCloud extends AbstractPage {
         }
     }
 
-//    public Calculator readEstimate() {
-//
-//        Calculator calculator = new Calculator();
-//
-//        calculator.setVMClass(driver.findElement(By.xpath(XPATH_VMCLASS)).getText().trim());
-//        calculator.setInstanceType(driver.findElement(By.xpath(XPATH_INSTANCE_TYPE)).getText().trim());
-//        calculator.setNumberOfInstances(driver.findElement(By.xpath(XPATH_NUMBER_OF_INSTANCES)).getText().trim().replaceAll("\\D+", ""));
-//        calculator.setNumberOfGPUs(XPATH_NUMBER_OF_GPUS);
-//        calculator.setGpuType(XPATH_GPU_TYPE);
-//        calculator.setLocalSSD(driver.findElement(By.xpath(XPATH_LOCAL_SSD)).getText().trim());
-//        calculator.setRegion(driver.findElement(By.xpath(XPATH_REGION)).getText().trim());
-//        calculator.setCommitmentUsage(driver.findElement(By.xpath(XPATH_COMMITMENT_USAGE)).getText().trim());
-//        //calculator.setCost(driver.findElement(By.xpath(XPATH_COST)).getText().trim());
-//
-//        return calculator;
-//    }
-
     public void sendEstimate(String emailAddress) {
 
-        driver.switchTo().frame(FRAME);
-        waitElementToBeVisibleWithTimeout(buttonEmailEstimate, 10);
+        waitFrameAndSwitchToIt(FRAME);
+        waitElementToBeVisible(buttonEmailEstimate);
         buttonEmailEstimate.click();
         emailClick.click();
         emailClick.sendKeys(emailAddress);
