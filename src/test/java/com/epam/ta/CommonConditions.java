@@ -4,7 +4,6 @@ import com.epam.ta.driver.DriverSingleton;
 import com.epam.ta.exceptions.IncorrectTestDataException;
 import com.epam.ta.model.Tab;
 import com.epam.ta.util.TestListener;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

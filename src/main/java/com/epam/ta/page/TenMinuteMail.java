@@ -12,20 +12,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class TenMinuteMail extends AbstractPage {
 
-//    private static final String XPATH_PRICE_ESTIMATE = ".//a[text()='Google Cloud Platform Price Estimate']";
-//    private static final String XPATH_MAIL = "//*[@id='mobilepadding']/td/table/tbody/tr[1]/td[4]";
-//    private static final String XPATH_COST = "//md-list-item[@role='listitem']//div//b";
-
     private final Logger logger = LogManager.getRootLogger();
-
-    @FindBy(xpath = "//button[@id='email_quote']")
-    private WebElement emailButton;
-
-    @FindBy(xpath = "//button[@aria-label='Send Email']")
-    private WebElement sendEmail;
-
-    @FindBy(xpath = ".//span[@class='inc-mail-subject']")
-    private WebElement openEmail;
 
     @FindBy(xpath = "//span[@id='email_ch_text']")
     private WebElement emailAddress;

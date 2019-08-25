@@ -15,39 +15,26 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-
 public class TestListener implements ITestListener {
-    private Logger log = LogManager.getRootLogger();
+    private Logger logger = LogManager.getRootLogger();
 
+
+    @Override
     public void onTestStart(ITestResult iTestResult) {
 
     }
 
+    @Override
     public void onTestSuccess(ITestResult iTestResult) {
 
     }
 
+    @Override
     public void onTestFailure(ITestResult iTestResult) {
-        saveScreenshot();
+        saveScrenshot();
     }
 
-    public void onTestSkipped(ITestResult iTestResult) {
-
-    }
-
-    public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
-
-    }
-
-    public void onStart(ITestContext iTestContext) {
-
-    }
-
-    public void onFinish(ITestContext iTestContext) {
-
-    }
-
-    private void saveScreenshot() {
+    private void saveScrenshot() {
         File screenCapture = ((TakesScreenshot) DriverSingleton
                 .getDriver())
                 .getScreenshotAs(OutputType.FILE);
@@ -56,13 +43,34 @@ public class TestListener implements ITestListener {
                     ".//target/screenshots/"
                             + getCurrentTimeAsString() +
                             ".png"));
-        } catch (IOException e) {
-            log.error("Failed to save screenshot: " + e.getLocalizedMessage());
+        }catch (IOException e) {
+            logger.error("Failed to save screenshot: " + e.getLocalizedMessage());
         }
     }
-
     private String getCurrentTimeAsString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd_HH-mm-ss");
         return ZonedDateTime.now().format(formatter);
     }
+
+    @Override
+    public void onTestSkipped(ITestResult iTestResult) {
+
+    }
+
+    @Override
+    public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
+
+    }
+
+    @Override
+    public void onStart(ITestContext iTestContext) {
+
+    }
+
+    @Override
+    public void onFinish(ITestContext iTestContext) {
+
+    }
 }
+
+

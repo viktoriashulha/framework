@@ -12,20 +12,9 @@ public class GoogleCloud extends AbstractPage {
 
     private static final String CLOUD_GOOGLE_URL = "https://cloud.google.com/";
     private static final String FRAME = "idIframe";
+
     @FindBy(xpath = "//md-content[@ng-class='{demo: !listingCtrl.CartData.IS_IFRAME}']")
     private WebElement secondFrame;
-//    private static final String XPATH_PRICE_ESTIMATE = ".//a[text()='Google Cloud Platform Price Estimate']";
-//
-//    private static final String XPATH_VMCLASS = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][1]";
-//    private static final String XPATH_INSTANCE_TYPE = "//md-list-item[@class='md-1-line md-no-proxy'][2]";
-//    private static final String XPATH_NUMBER_OF_INSTANCES = "//md-list//..//span[@class='ng-binding ng-scope']";
-//    private static final String XPATH_NUMBER_OF_GPUS = "1";
-//    private static final String XPATH_GPU_TYPE = "NVIDIA Tesla V100";
-//    private static final String XPATH_LOCAL_SSD = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][2]";
-//    private static final String XPATH_REGION = "//md-list-item[@class='md-1-line md-no-proxy'][3]";
-//    private static final String XPATH_COMMITMENT_USAGE = "//md-list-item[@class='md-1-line md-no-proxy ng-scope'][3]";
-//    private static final String XPATH_COST = "//md-list-item[@role='listitem']//div//b";
-//    private static final String XPATH_MAIL = "//*[@id='mobilepadding']/td/table/tbody/tr[1]/td[4]";
 
     private final Logger logger = LogManager.getRootLogger();
 
@@ -275,7 +264,7 @@ public class GoogleCloud extends AbstractPage {
 
     public void sendEstimate(String emailAddress) {
 
-       // waitFrameAndSwitchToIt(FRAME);
+        waitFrameAndSwitchToIt(FRAME);
 //        waitElementToBeVisible(secondFrame);
 //        secondFrame.click();
         waitElementToBeVisible(buttonEmailEstimate);
@@ -283,10 +272,5 @@ public class GoogleCloud extends AbstractPage {
         emailClick.click();
         emailClick.sendKeys(emailAddress);
         buttonSendEmail.click();
-    }
-
-    public String  readEstimatedPrice() {
-        estimatedPrice.getText().trim();
-        return null;
     }
 }

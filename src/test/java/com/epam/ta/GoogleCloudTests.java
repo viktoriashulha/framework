@@ -24,7 +24,6 @@ public class GoogleCloudTests extends CommonConditions {
                 .goToCalculator()
                 .createEstimate(expectedCalculator);
 
-//        String estimatedPrice = googleCloud.readEstimatedPrice();
         TenMinuteMail tenMinuteMail = new TenMinuteMail(driver);
         tenMinuteMail.openPage();
         switchToTab(Tab.LAST);
