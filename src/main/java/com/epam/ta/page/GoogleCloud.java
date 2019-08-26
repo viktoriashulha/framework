@@ -13,9 +13,6 @@ public class GoogleCloud extends AbstractPage {
     private static final String CLOUD_GOOGLE_URL = "https://cloud.google.com/";
     private static final String FRAME = "idIframe";
 
-    @FindBy(xpath = "//md-content[@ng-class='{demo: !listingCtrl.CartData.IS_IFRAME}']")
-    private WebElement secondFrame;
-
     private final Logger logger = LogManager.getRootLogger();
 
     @FindBy(xpath = "//a[@data-label='Tab: Pricing']")
@@ -116,9 +113,6 @@ public class GoogleCloud extends AbstractPage {
 
     @FindBy(xpath = "//button[@aria-label='Send Email']")
     private WebElement buttonSendEmail;
-
-    @FindBy(xpath = "//h2[@class='md-title']//b")
-    private WebElement estimatedPrice;
 
     public GoogleCloud(WebDriver driver) {
         super(driver);
@@ -265,8 +259,6 @@ public class GoogleCloud extends AbstractPage {
     public void sendEstimate(String emailAddress) {
 
         waitFrameAndSwitchToIt(FRAME);
-//        waitElementToBeVisible(secondFrame);
-//        secondFrame.click();
         waitElementToBeVisible(buttonEmailEstimate);
         buttonEmailEstimate.click();
         emailClick.click();
