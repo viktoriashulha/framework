@@ -258,12 +258,11 @@ public class GoogleCloud extends AbstractPage {
 
     public void sendEstimate(String emailAddress) {
 
-        
+        waitFrameAndSwitchToIt(FRAME);
         waitElementToBeVisible(buttonEmailEstimate);
         buttonEmailEstimate.click();
         emailClick.click();
         emailClick.sendKeys(emailAddress);
-        waitFrameAndSwitchToIt(FRAME);
         buttonSendEmail.click();
     }
 }
