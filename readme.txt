@@ -1,1 +1,1 @@
--Dbrowser=chrome -Dsurefire.suiteXmlFiles=src\main\resources\testng-smoke.xml -Denvironment=dev clean test
+-Dbrowser=chrome -Dsurefire.suiteXmlFiles=src/test/resources/testng-all.xml -Denvironment=dev clean test
