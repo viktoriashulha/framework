@@ -16,7 +16,7 @@ public abstract class AbstractPage {
     protected abstract AbstractPage openPage();
 
     protected final int WAIT_TIMEOUT_SECONDS = 15;
-    protected final int WAIT_FLUENT = 2;
+    protected final int WAIT_FLUENT = 5;
 
     protected AbstractPage(WebDriver driver) {
         this.driver = driver;
@@ -30,9 +30,8 @@ public abstract class AbstractPage {
         new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
     }
 
-    protected Wait<WebDriver> fluentWait(){
-        Wait<WebDriver> wait = new FluentWait<>(driver).withTimeout(Duration.ofSeconds(WAIT_FLUENT));
-        return wait;
-    }
+    protected void fluentWait(){
+        new FluentWait<>(driver).withTimeout(Duration.ofSeconds(WAIT_FLUENT));
 
+    }
 }
