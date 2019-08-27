@@ -28,7 +28,6 @@ public class GoogleCloudTests extends CommonConditions {
         tenMinuteMail.openPage();
         switchToTab(Tab.LAST);
         String emailAddress = tenMinuteMail.getEmailAddress();
-        System.out.println(emailAddress);
         switchToTab(Tab.FIRST);
         String estimatedPrice = "Estimated Monthly Cost: USD 1,187.77";
         googleCloud.sendEstimate(emailAddress);

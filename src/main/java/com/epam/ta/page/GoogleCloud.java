@@ -90,7 +90,7 @@ public class GoogleCloud extends AbstractPage {
     @FindBy(xpath = "//md-option[@id='select_option_184']")
     private WebElement locationFrankfurtLocator;
 
-    @FindBy(xpath = "//md-option[@id='select_option_177']")
+    @FindBy(xpath = "//md-option[@id='select_option_180']")
     private WebElement locationOregonLocator;
 
     @FindBy(xpath = "//md-select-value[@id='select_value_label_51']")
@@ -128,6 +128,7 @@ public class GoogleCloud extends AbstractPage {
     public GoogleCloud goToCalculator() {
         linkPricing.click();
         linkPriceCalculator.click();
+        fluentWait();
         driver.switchTo().frame(FRAME);
         return new GoogleCloud(driver);
     }
@@ -135,23 +136,32 @@ public class GoogleCloud extends AbstractPage {
     public GoogleCloud createEstimate(Calculator calculator) {
 
         inputInstanses.sendKeys(calculator.getNumberOfInstances());
+        fluentWait();
         mashineTypeLocator.click();
+        fluentWait();
         setMachineType(calculator.getInstanceType());
-
+        fluentWait();
         waitElementToBeVisible(addGPUCheckbox);
+        fluentWait();
         addGPUCheckbox.click();
+        fluentWait();
         numberOfGupsLocator.click();
         setNumberOfGups(calculator.getNumberOfGPUs());
         waitElementToBeVisible(typeOfGupsLocator);
+        fluentWait();
         typeOfGupsLocator.click();
         setGPUType(calculator.getGpuType());
+        fluentWait();
         localSSDLocator.click();
         setLocalSSD(calculator.getLocalSSD());
         waitElementToBeVisible(locationClickLocator);
+        fluentWait();
         locationClickLocator.click();
         setLocation(calculator.getRegion());
+        fluentWait();
         waitElementToBeVisible(commitedUsageClick);
         commitedUsageClick.click();
+        fluentWait();
         setCommitedUsage(calculator.getCommitmentUsage());
         buttonAddToEstimate.click();
 
@@ -264,5 +274,6 @@ public class GoogleCloud extends AbstractPage {
         emailClick.click();
         emailClick.sendKeys(emailAddress);
         buttonSendEmail.click();
+        logger.info("Send Email");
     }
 }

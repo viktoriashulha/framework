@@ -34,6 +34,7 @@ public class TenMinuteMail extends AbstractPage {
 
     public String getEmailAddress() {
         waitElementToBeVisible(emailAddress);
+        logger.info("Get Email Address");
         return emailAddress.getText();
     }
 

@@ -3,7 +3,11 @@ package com.epam.ta.page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public abstract class AbstractPage {
 
@@ -11,7 +15,8 @@ public abstract class AbstractPage {
 
     protected abstract AbstractPage openPage();
 
-    protected final int WAIT_TIMEOUT_SECONDS = 10;
+    protected final int WAIT_TIMEOUT_SECONDS = 15;
+    protected final int WAIT_FLUENT = 2;
 
     protected AbstractPage(WebDriver driver) {
         this.driver = driver;
@@ -21,8 +26,13 @@ public abstract class AbstractPage {
         new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.visibilityOf(element));
     }
 
-    protected void waitFrameAndSwitchToIt (String frame){
+    protected void waitFrameAndSwitchToIt (String frame) {
         new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
+    }
+
+    protected Wait<WebDriver> fluentWait(){
+        Wait<WebDriver> wait = new FluentWait<>(driver).withTimeout(Duration.ofSeconds(WAIT_FLUENT));
+        return wait;
     }
 
 }
