@@ -24,13 +24,13 @@ public class GoogleCloud extends AbstractPage {
     @FindBy(xpath = "(//input[@aria-label='quantity'])[1]")
     private WebElement inputInstanses;
 
-    @FindBy(xpath = "//md-select[@id='select_75']")
+    @FindBy(xpath = "//md-select[@id='select_76']")
     private WebElement mashineTypeLocator;
 
     @FindBy(xpath = "//md-option[@id='select_option_208']")
     private WebElement instanceTypeN1Standart1Locator;
 
-    @FindBy(xpath = "//md-option[@id='select_option_216']")
+    @FindBy(xpath = "//md-option[@id='select_option_217']")
     private WebElement instanceTypeN1Standart8Locator;
 
     @FindBy(xpath = "//md-option[@id='select_option_216']")
@@ -63,7 +63,7 @@ public class GoogleCloud extends AbstractPage {
     @FindBy(xpath = "//md-option[@id='select_option_363']")
     private WebElement gpuTypeTeslaP4Locator;
 
-    @FindBy(xpath = "//md-option[@value='NVIDIA_TESLA_V100']")
+    @FindBy(xpath = "//md-option[@id='select_option_360']")
     private WebElement gpuTypeTeslaV100Locator;
 
     @FindBy(xpath = "//md-option[@id='select_option_365']")
@@ -72,13 +72,13 @@ public class GoogleCloud extends AbstractPage {
     @FindBy(xpath = "//md-checkbox[@aria-label='Add GPUs']")
     private WebElement addGPUCheckbox;
 
-    @FindBy(xpath = "//md-select[@placeholder='Local SSD']//span[1]")
+    @FindBy(xpath = "//md-select[@id='select_78']")
     private WebElement localSSDLocator;
 
     @FindBy(xpath = "//md-option[@id='select_option_166']")
     private WebElement localSSD1x35GbLocator;
 
-    @FindBy(xpath = "//md-option[@id='select_option_170']")
+    @FindBy(xpath = "//md-option[@id='select_option_171']")
     private WebElement localSSD2x375GbLocator;
 
     @FindBy(xpath = "//md-option[@id='select_option_168']")
@@ -87,19 +87,19 @@ public class GoogleCloud extends AbstractPage {
     @FindBy(xpath = "//md-select[@ng-model='listingCtrl.computeServer.location']")
     private WebElement locationClickLocator;
 
-    @FindBy(xpath = "//md-option[@id='select_option_184']")
+    @FindBy(xpath = "//md-option[@id='select_option_185']")
     private WebElement locationFrankfurtLocator;
 
     @FindBy(xpath = "//md-option[@id='select_option_180']")
     private WebElement locationOregonLocator;
 
-    @FindBy(xpath = "//md-select-value[@id='select_value_label_51']")
+    @FindBy(xpath = "//md-select-value[@id='select_value_label_52']")
     private WebElement commitedUsageClick;
 
-    @FindBy(xpath = "//md-option[@id='select_option_82']")
+    @FindBy(xpath = "//md-option[@id='select_option_83']")
     private WebElement commitedUsage1YearLocator;
 
-    @FindBy(xpath = "//md-option[@id='select_option_83']")
+    @FindBy(xpath = "//md-option[@id='select_option_84']")
     private WebElement commitedUsage3YearsLocator;
 
     @FindBy(xpath = "//button[@ng-disabled='ComputeEngineForm.$invalid || !listingCtrl.isGceAvailabele']")
@@ -133,35 +133,46 @@ public class GoogleCloud extends AbstractPage {
         return new GoogleCloud(driver);
     }
 
-    public GoogleCloud createEstimate(Calculator calculator) {
+    public GoogleCloud createEstimate(Calculator calculator) throws InterruptedException {
 
         inputInstanses.sendKeys(calculator.getNumberOfInstances());
         fluentWait();
+        Thread.sleep(2000);
         mashineTypeLocator.click();
         fluentWait();
+        Thread.sleep(2000);
         setMachineType(calculator.getInstanceType());
         fluentWait();
+        Thread.sleep(2000);
         waitElementToBeVisible(addGPUCheckbox);
         fluentWait();
+        Thread.sleep(2000);
         addGPUCheckbox.click();
         fluentWait();
+        Thread.sleep(2000);
         numberOfGupsLocator.click();
         setNumberOfGups(calculator.getNumberOfGPUs());
         waitElementToBeVisible(typeOfGupsLocator);
+        Thread.sleep(2000);
         fluentWait();
         typeOfGupsLocator.click();
+        Thread.sleep(2000);
         setGPUType(calculator.getGpuType());
         fluentWait();
+        Thread.sleep(2000);
         localSSDLocator.click();
         setLocalSSD(calculator.getLocalSSD());
         waitElementToBeVisible(locationClickLocator);
+        Thread.sleep(2000);
         fluentWait();
         locationClickLocator.click();
         setLocation(calculator.getRegion());
         fluentWait();
+        Thread.sleep(2000);
         waitElementToBeVisible(commitedUsageClick);
         commitedUsageClick.click();
         fluentWait();
+        Thread.sleep(2000);
         setCommitedUsage(calculator.getCommitmentUsage());
         buttonAddToEstimate.click();
 

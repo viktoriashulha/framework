@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.is;
 public class GoogleCloudTests extends CommonConditions {
 
     @Test
-    public void oneCanCreateEstimate() {
+    public void oneCanCreateEstimate() throws InterruptedException {
 
         Calculator expectedCalculator = CalculatorCreator.createEstimateFromProperty();
 
